@@ -1,0 +1,124 @@
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.R
+import kotlinx.coroutines.launch
+
+// Main Activity class
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyApp()
+        }
+    }
+}
+
+// Main composable function
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyApp() {
+    val navController = rememberNavController()
+    val scope = rememberCoroutineScope()
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("My Application") },
+            )
+        },
+//        drawerContent = {
+//            Column {
+//                Text("Navigation Menu", modifier = Modifier.padding(16.dp))
+//                Divider()
+//                TextButton(onClick = {
+//                    navController.navigate("home")
+//                    scope.launch { scaffoldState.drawerState.close() }
+//                }) {
+//                    Text("Home")
+//                }
+//                TextButton(onClick = {
+//                    navController.navigate("detail")
+//                    scope.launch { scaffoldState.drawerState.close() }
+//                }) {
+//                    Text("Detail")
+//                }
+//            }
+//        }
+    ) { innerPadding ->
+        // Content with navigation and background image
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Background Image
+            Image(
+                painter = painterResource(id = R.drawable._59183871_1121629082785433_5079525151804788291_n), // Replace with your image resource
+                contentDescription = "Background Image",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize()
+            )
+            // Navigation content
+            NavigationComponent(navController, modifier = Modifier.padding(innerPadding))
+        }
+    }
+}
+
+// Navigation component with NavHost
+@Composable
+fun NavigationComponent(navController: NavHostController, modifier: Modifier = Modifier) {
+    NavHost(navController = navController, startDestination = "home", modifier = modifier) {
+        composable("home") {
+            HomeScreen()
+        }
+        composable("detail") {
+            DetailScreen()
+        }
+    }
+}
+
+// Home Screen
+@Composable
+fun HomeScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text("Welcome to the Home Screen!", style = MaterialTheme.typography.titleMedium, color = Color.White)
+    }
+}
+
+// Detail Screen
+@Composable
+fun DetailScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text("Welcome to the Detail Screen!", style = MaterialTheme.typography.titleMedium, color = Color.White)
+    }
+}
+
+@Preview
+@Composable
+fun a() {
+    HomeScreen()
+}
